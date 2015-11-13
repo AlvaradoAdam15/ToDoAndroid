@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity
 
         gson = new Gson();
 
-        /*
+        /* JSON Example
 
         [
             {name:"Compra llet", "done": true, "priority": 2},
@@ -48,10 +48,14 @@ public class MainActivity extends AppCompatActivity
             {name:"Fer exercici", "done": false, "priority": 3}
 
         ]
+
+
+
          */
 
         Type arrayTodoList = new TypeToken<TodoArrayList>(){}.getType();
         gson.fromJson(todoList,arrayTodoList);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
