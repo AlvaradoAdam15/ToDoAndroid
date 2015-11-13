@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity
     private static final String SHARED_PREFERENCES_TODOS ="SP_TODOS";
     private static final String TODO_LIST ="todo_list" ;
     private Gson gson;
+    public TodoArrayList tasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,12 @@ public class MainActivity extends AppCompatActivity
         Type arrayTodoList = new TypeToken<TodoArrayList>(){}.getType();
         TodoArrayList temp = gson.fromJson(todoList, arrayTodoList);
 
+        if (temp != null){
+            tasks = temp;
+
+        } else {
+            //Error TODO
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
