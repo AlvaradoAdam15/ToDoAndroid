@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity
             String initial_json= "[{name:\"Compra llet\", \"done\": true, \"priority\": 2},\n" +
                     "            {name:\"Compra pa\", \"done\": true, \"priority\": 1},\n" +
                     "            {name:\"Fer exercici\", \"done\": false, \"priority\": 3}]";
+            SharedPreferences.Editor editor = todos.edit();
+            editor.putString(SHARED_PREFERENCES_TODOS, initial_json);
         }
 
         gson = new Gson();
