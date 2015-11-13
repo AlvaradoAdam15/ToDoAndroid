@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity
          */
 
         Type arrayTodoList = new TypeToken<TodoArrayList>(){}.getType();
-        gson.fromJson(todoList,arrayTodoList);
+        TodoArrayList temp = gson.fromJson(todoList, arrayTodoList);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
