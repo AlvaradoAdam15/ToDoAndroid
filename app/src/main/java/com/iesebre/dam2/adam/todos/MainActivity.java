@@ -39,6 +39,23 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences todos = getSharedPreferences(SHARED_PREFERENCES_TODOS, 0);
         String todoList = todos.getString(TODO_LIST, null);
 
+        /* JSON Example
+
+        [
+            {name:"Compra llet", "done": true, "priority": 2},
+            {name:"Compra pa", "done": true, "priority": 1},
+            {name:"Fer exercici", "done": false, "priority": 3}
+
+        ]
+
+         */
+
+        if (todoList == null){
+            String initial_json= "[{name:\"Compra llet\", \"done\": true, \"priority\": 2},\n" +
+                    "            {name:\"Compra pa\", \"done\": true, \"priority\": 1},\n" +
+                    "            {name:\"Fer exercici\", \"done\": false, \"priority\": 3}]";
+        }
+
         gson = new Gson();
 
         /* JSON Example
@@ -49,8 +66,6 @@ public class MainActivity extends AppCompatActivity
             {name:"Fer exercici", "done": false, "priority": 3}
 
         ]
-
-
 
          */
 
