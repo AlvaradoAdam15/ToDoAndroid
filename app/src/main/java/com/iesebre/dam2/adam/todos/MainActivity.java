@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity
                     "            {name:\"Fer exercici\", \"done\": false, \"priority\": 3}]";
             SharedPreferences.Editor editor = todos.edit();
             editor.putString(SHARED_PREFERENCES_TODOS, initial_json);
+            editor.commit();
         }
 
         gson = new Gson();
