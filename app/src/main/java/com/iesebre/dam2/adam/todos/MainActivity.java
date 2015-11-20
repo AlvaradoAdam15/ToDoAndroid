@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
             todoList = todos.getString(TODO_LIST, initial_json);
         }
 
-        //Log.d();
+        Log.d("TAG_PROVA", "******************************************************************");
 
         gson = new Gson();
 
