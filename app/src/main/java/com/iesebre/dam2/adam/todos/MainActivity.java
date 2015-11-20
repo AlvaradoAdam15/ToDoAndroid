@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
             todoList = todos.getString(TODO_LIST, initial_json);
         }
 
-
+        //Log.d();
 
         gson = new Gson();
 
@@ -86,11 +86,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             //Error TODO
         }
-
-        TextView myTextView = (TextView) findViewById(R.id.textViewPrint);
-        myTextView.setText(tasks.toString());
-
-        Log.d(TODO_LIST, tasks.toString());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
