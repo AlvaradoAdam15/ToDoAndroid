@@ -1,33 +1,47 @@
 package com.iesebre.dam2.adam.todos;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import java.util.ArrayList;
 
 /**
  * Created by adam on 20/11/15.
  */
 public class CustomListAtapter extends BaseAdapter {
-    public CustomListAtapter(MainActivity mainActivity, TodoArrayList tasks) {
+    private final Context context;
+    private final ArrayList<TodoItem> list;
+    private final LayoutInflater layputInflater;
+
+    public CustomListAtapter(Context context, ArrayList listData) {
+        this.context = context;
+        this.list = listData;
+        layputInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return list.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+
+        contentView = layputInflater.inflate(R.id.todolistitem, null);
+
+        return contentView;
     }
 }
