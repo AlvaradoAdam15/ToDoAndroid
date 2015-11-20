@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity
         Log.d("TAG_PROVA", todoList);
         Log.d("TAG_PROVA", "******************************************************************");
 
-        Toast.makeText(this, todoList, Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, todoList, Toast.LENGTH_LONG).show();
 
         /* JSON Example
 
@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity
          */
 
         Type arrayTodoList = new TypeToken<TodoArrayList>(){}.getType();
+        this.gson = new Gson();
         TodoArrayList temp = gson.fromJson(todoList, arrayTodoList);
 
         if (temp != null){
