@@ -92,6 +92,10 @@ public class MainActivity extends AppCompatActivity
 
         ListView todoslv = (ListView) findViewById(R.id.todolistview);
 
+        //We bind our arraylist of tasks to the adapter
+        adapter = new CustomListAtapter(this, tasks);
+        todoslv.setAtapter(adapter);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
