@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TODO_LIST ="todo_list" ;
     private Gson gson;
     public TodoArrayList tasks;
+    private CustomListAtapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity
 
         //We bind our arraylist of tasks to the adapter
         adapter = new CustomListAtapter(this, tasks);
-        todoslv.setAtapter(adapter);
+        todoslv.setAdapter(adapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
