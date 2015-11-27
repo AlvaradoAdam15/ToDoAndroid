@@ -40,8 +40,12 @@ public class CustomListAtapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        contentView = layputInflater.inflate(R.id.todolistitem, null);
+        if(convertView == null){
+            convertView = layputInflater.inflate(R.id.todolistitem, null);
+        } else {
 
-        return contentView;
+        }
+
+        return convertView;
     }
 }
