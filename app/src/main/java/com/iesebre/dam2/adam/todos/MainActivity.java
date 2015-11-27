@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity
         if (todoList == null){
             String initial_json= "[{name:\"Compra llet\", \"done\": true, \"priority\": 2},\n" +
                     "            {name:\"Compra pa\", \"done\": true, \"priority\": 1},\n" +
+                    "            {name:\"Compra ous\", \"done\": true, \"priority\": 4},\n" +
                     "            {name:\"Fer exercici\", \"done\": false, \"priority\": 3}]";
             SharedPreferences.Editor editor = todos.edit();
             editor.putString(TODO_LIST, initial_json);
