@@ -40,12 +40,15 @@ public class MainActivity extends AppCompatActivity
     protected void onStop() {
         super.onStop();
 
-//        gson.toJson()
-//
-//        String initial_json=
-//                SharedPreferences.Editor editor = todos.edit();
-//        editor.putString(TODO_LIST, initial_json);
-//        editor.commit();
+        //When stop app save tasks
+        if (tasks == null) { return; }
+
+        String tasksToSave = gson.toJson(tasks);
+
+        SharedPreferences todos = getSharedPreferences(SHARED_PREFERENCES_TODOS, 0);
+        SharedPreferences.Editor editor = todos.edit();
+        editor.putString(TODO_LIST, tasksToSave);
+        editor.apply();
     }
 
     @Override
@@ -196,7 +199,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void showAddForm(View view){
+    public void showAddForm(View view) {
         taskName = " ";
 
         EditText taskNameText;
@@ -208,7 +211,7 @@ public class MainActivity extends AppCompatActivity
                 positiveText("Add").
                 negativeColor(Color.parseColor("#ff3333")).
                 positiveColor(Color.parseColor("#2196F3")).
-                onPositive(new MaterialDialog.SingleButtonCallback(){
+                onPositive(new MaterialDialog.SingleButtonCallback() {
 
                     @Override
                     public void onClick(MaterialDialog dialog, DialogAction which) {
@@ -223,30 +226,34 @@ public class MainActivity extends AppCompatActivity
                     }
                 }).
 
-            build();
+                build();
 
-            dialog.show();
+        dialog.show();
 
-            taskNameText = (EditText) dialog.getCustomView().findViewById(R.id.task_tittle);
+        taskNameText = (EditText) dialog.getCustomView().findViewById(R.id.task_tittle);
 
-            taskNameText.addTextChangedListener(new TextWatcher(){
+        taskNameText.addTextChangedListener(new TextWatcher() {
 
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                }
+            }
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    taskName = s.toString();
-                }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                taskName = s.toString();
+            }
 
-                @Override
-                public void afterTextChanged(Editable s) {
+            @Override
+            public void afterTextChanged(Editable s) {
 
-                }
-            });
+            }
+        });
 
 
+    }
+
+    public void removeTask(){
+        //TODO
     }
 }
