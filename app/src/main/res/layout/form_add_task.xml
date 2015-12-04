@@ -12,5 +12,8 @@
         android:inputType="textCapSentences"
         android:maxLines="1"
         android:hint="Nom tasca"/>
+
+    <!--- Priority -->
+    <!--- Done -->
     
 </LinearLayout>
