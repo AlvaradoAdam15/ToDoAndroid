@@ -186,10 +186,13 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    View positiveAction;
+
     public void showAddForm(View view) {
+
         taskName = " ";
 
-        EditText taskNameText;
+        final EditText taskNameText;
 
         MaterialDialog dialog = new MaterialDialog.Builder(this).
                 title("Add new Task").
@@ -207,8 +210,10 @@ public class MainActivity extends AppCompatActivity
                         todoItem.setDone(false);
                         todoItem.setPriority(2);
 
-                            tasks.add(todoItem);
-                            adapter.notifyDataSetChanged();
+                        tasks.add(todoItem);
+                        adapter.notifyDataSetChanged();
+
+
                     }
                 }).
 
@@ -217,6 +222,9 @@ public class MainActivity extends AppCompatActivity
         dialog.show();
 
         taskNameText = (EditText) dialog.getCustomView().findViewById(R.id.task_tittle);
+
+        positiveAction = dialog.getActionButton(DialogAction.POSITIVE);
+        positiveAction.setEnabled(false);
 
         taskNameText.addTextChangedListener(new TextWatcher() {
 
@@ -228,6 +236,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 taskName = s.toString();
+                positiveAction.setEnabled(taskName.trim().length() > 0);
             }
 
             @Override
