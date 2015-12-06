@@ -1,11 +1,16 @@
 package com.iesebre.dam2.adam.todos;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -50,11 +55,21 @@ public class CustomListAtapter extends BaseAdapter {
 
         TextView tv = (TextView) convertView.findViewById(R.id.todolistitemtext);
         final CheckBox done = (CheckBox) convertView.findViewById(R.id.checkboxDone);
+        RadioButton priority = (RadioButton) convertView.findViewById(R.id.priority);
+        priority.setChecked(true);
+        priority.setClickable(false);
 
-        tv.setText(list.get(position).getName() +
-                " p:" + list.get(position).getPriority());
+        tv.setText(list.get(position).getName());
 
         done.setChecked(list.get(position).isDone());
+
+        int urgentColor = Color.parseColor("#fe0000");
+        int mediumColor = Color.parseColor("#0099ff");
+        int notUrgentColor = Color.parseColor("#00ff19");
+
+        if(list.get(position).getPriority() == 1){priority.setButtonTintList(ColorStateList.valueOf(urgentColor));}
+        if(list.get(position).getPriority() == 2){priority.setButtonTintList(ColorStateList.valueOf(mediumColor));}
+        if(list.get(position).getPriority() == 3){priority.setButtonTintList(ColorStateList.valueOf(notUrgentColor));}
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,4 +87,5 @@ public class CustomListAtapter extends BaseAdapter {
 
         return convertView;
     }
+
 }

@@ -29,19 +29,20 @@
         <RadioButton android:id="@+id/task_priority_urgent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Urgent!"/>
+            android:text="Urgent!"
+            android:buttonTint="#fe0000"/>
 
         <RadioButton android:id="@+id/task_priority_important_not_urgent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Important but not Urgent"
-            />
+            android:buttonTint="#0099ff"/>
 
         <RadioButton android:id="@+id/task_priority_not_urgent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Not Urgent"
-            />
+            android:buttonTint="#00ff19"/>
 
     </RadioGroup>
 </LinearLayout>

@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -208,14 +209,26 @@ public class MainActivity extends AppCompatActivity
                         final TodoItem todoItem = new TodoItem();
                         todoItem.setName(taskName);
                         todoItem.setDone(false);
-                        todoItem.setPriority(2);
 
+                        // Task priority
+                        RadioGroup taskPriority = (RadioGroup) dialog.findViewById(R.id.task_priority);
+
+                        switch (taskPriority.getCheckedRadioButtonId()) {
+                            case R.id.task_priority_urgent:
+                                todoItem.setPriority(1);
+                                break;
+                            case R.id.task_priority_important_not_urgent:
+                                todoItem.setPriority(2);
+                                break;
+                            case R.id.task_priority_not_urgent:
+                                todoItem.setPriority(3);
+                                break;
+                        }
                         tasks.add(todoItem);
                         adapter.notifyDataSetChanged();
-
-
                     }
                 }).
+
 
                 build();
 
