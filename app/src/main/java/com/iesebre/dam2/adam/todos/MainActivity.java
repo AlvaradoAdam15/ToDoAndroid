@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -72,32 +73,18 @@ public class MainActivity extends AppCompatActivity
          */
 
         if (todoList == null){
-            String initial_json= "[{name:\"Compra llet\", \"done\": true, \"priority\": 2},\n" +
-                    "            {name:\"Compra pa\", \"done\": true, \"priority\": 1},\n" +
-                    "            {name:\"Compra ous\", \"done\": true, \"priority\": 4},\n" +
-                    "            {name:\"Fer exercici\", \"done\": false, \"priority\": 3}]";
+            String initial_json= "[{name:\"Example Task\", \"done\": false, \"priority\": 2}]";
             SharedPreferences.Editor editor = todos.edit();
             editor.putString(TODO_LIST, initial_json);
             editor.commit();
             todoList = todos.getString(TODO_LIST, null);
         }
 
-        Log.d("TAG_PROVA", "******************************************************************");
-        Log.d("TAG_PROVA", todoList);
-        Log.d("TAG_PROVA", "******************************************************************");
+//        Log.d("TAG_PROVA", "******************************************************************");
+//        Log.d("TAG_PROVA", todoList);
+//        Log.d("TAG_PROVA", "******************************************************************");
 
 //        Toast.makeText(this, todoList, Toast.LENGTH_LONG).show();
-
-        /* JSON Example
-
-        [
-            {name:"Compra llet", "done": true, "priority": 2},
-            {name:"Compra pa", "done": true, "priority": 1},
-            {name:"Fer exercici", "done": false, "priority": 3}
-
-        ]
-
-         */
 
         Type arrayTodoList = new TypeToken<TodoArrayList>(){}.getType();
         this.gson = new Gson();
@@ -120,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        FloatingActionButton fabRemove = (FloatingActionButton) findViewById(R.id.fab_remove);
+        FloatingActionButton fabRemove = (FloatingActionButton) findViewById(R.id.fabremove);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -217,11 +204,10 @@ public class MainActivity extends AppCompatActivity
                     public void onClick(MaterialDialog dialog, DialogAction which) {
                         final TodoItem todoItem = new TodoItem();
                         todoItem.setName(taskName);
-                        todoItem.setDone(true);
+                        todoItem.setDone(false);
                         todoItem.setPriority(1);
 
                         tasks.add(todoItem);
-                        //tasks.remove(1);
                         adapter.notifyDataSetChanged();
                     }
                 }).
@@ -250,10 +236,20 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
     }
 
-    public void removeTask(){
+    public void removeTask(View view){
+
+        for (int i = tasks.size() -1; i >= 0; i--)
+        {
+            if (tasks.get(i).isDone()) { tasks.remove(i); }
+        }
+
+        adapter.notifyDataSetChanged();
+    }
+
+    public void editTask(View view) {
         //TODO
     }
+
 }
