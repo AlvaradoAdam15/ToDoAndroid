@@ -3,6 +3,7 @@ package com.iesebre.dam2.adam.todos;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.view.LayoutInflater;
@@ -53,7 +54,7 @@ public class CustomListAtapter extends BaseAdapter {
 
         }
 
-        TextView tv = (TextView) convertView.findViewById(R.id.todolistitemtext);
+        final TextView tv = (TextView) convertView.findViewById(R.id.todolistitemtext);
         final CheckBox done = (CheckBox) convertView.findViewById(R.id.checkboxDone);
         RadioButton priority = (RadioButton) convertView.findViewById(R.id.priority);
         priority.setChecked(true);
@@ -77,9 +78,11 @@ public class CustomListAtapter extends BaseAdapter {
                 if (!done.isChecked()) {
                     done.setChecked(false);
                     list.get(position).setDone(false);
+                    tv.setPaintFlags(0);
                 } else {
                     done.setChecked(true);
                     list.get(position).setDone(true);
+                    tv.setPaintFlags(tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 }
 
             }
