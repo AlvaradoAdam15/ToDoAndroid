@@ -207,12 +207,8 @@ public class MainActivity extends AppCompatActivity
                         todoItem.setDone(false);
                         todoItem.setPriority(2);
 
-                        if (todoItem == null) {
                             tasks.add(todoItem);
                             adapter.notifyDataSetChanged();
-                        } else {
-                            System.out.println("Task not save");
-                        }
                     }
                 }).
 
