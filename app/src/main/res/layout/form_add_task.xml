@@ -11,9 +11,37 @@
         android:layout_height="48dp"
         android:inputType="textCapSentences"
         android:maxLines="1"
-        android:hint="Nom tasca"/>
+        android:hint="Task Name"/>
 
-    <!--- Priority -->
-    <!--- Done -->
-    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        android:text="Priority" />
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/task_priority"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton android:id="@+id/task_priority_urgent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Urgent!"/>
+
+        <RadioButton android:id="@+id/task_priority_important_not_urgent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Important but not Urgent"
+            />
+
+        <RadioButton android:id="@+id/task_priority_not_urgent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not Urgent"
+            />
+
+    </RadioGroup>
 </LinearLayout>

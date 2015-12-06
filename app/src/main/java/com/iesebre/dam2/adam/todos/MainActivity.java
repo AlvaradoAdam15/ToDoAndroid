@@ -205,10 +205,14 @@ public class MainActivity extends AppCompatActivity
                         final TodoItem todoItem = new TodoItem();
                         todoItem.setName(taskName);
                         todoItem.setDone(false);
-                        todoItem.setPriority(1);
+                        todoItem.setPriority(2);
 
-                        tasks.add(todoItem);
-                        adapter.notifyDataSetChanged();
+                        if (todoItem == null) {
+                            tasks.add(todoItem);
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            System.out.println("Task not save");
+                        }
                     }
                 }).
 
@@ -244,7 +248,7 @@ public class MainActivity extends AppCompatActivity
         {
             if (tasks.get(i).isDone()) { tasks.remove(i); }
         }
-
+        
         adapter.notifyDataSetChanged();
     }
 
