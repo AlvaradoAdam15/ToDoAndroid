@@ -61,6 +61,7 @@ public class CustomListAtapter extends BaseAdapter {
         priority.setClickable(false);
 
         tv.setText(list.get(position).getName());
+        tv.setPaintFlags(0);
 
         done.setChecked(list.get(position).isDone());
 
