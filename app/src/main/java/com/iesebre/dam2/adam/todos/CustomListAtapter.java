@@ -56,9 +56,6 @@ public class CustomListAtapter extends BaseAdapter {
 
         final TextView tv = (TextView) convertView.findViewById(R.id.todolistitemtext);
         final CheckBox done = (CheckBox) convertView.findViewById(R.id.checkboxDone);
-        RadioButton priority = (RadioButton) convertView.findViewById(R.id.priority);
-        priority.setChecked(true);
-        priority.setClickable(false);
 
         tv.setText(list.get(position).getName());
         tv.setPaintFlags(0);
