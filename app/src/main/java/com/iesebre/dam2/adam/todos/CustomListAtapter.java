@@ -69,9 +69,9 @@ public class CustomListAtapter extends BaseAdapter {
         int mediumColor = Color.parseColor("#0099ff");
         int notUrgentColor = Color.parseColor("#00ff19");
 
-        if(list.get(position).getPriority() == 1){priority.setButtonTintList(ColorStateList.valueOf(urgentColor));}
-        if(list.get(position).getPriority() == 2){priority.setButtonTintList(ColorStateList.valueOf(mediumColor));}
-        if(list.get(position).getPriority() == 3){priority.setButtonTintList(ColorStateList.valueOf(notUrgentColor));}
+        if(list.get(position).getPriority() == 1){done.setButtonTintList(ColorStateList.valueOf(urgentColor));}
+        if(list.get(position).getPriority() == 2){done.setButtonTintList(ColorStateList.valueOf(mediumColor));}
+        if(list.get(position).getPriority() == 3){done.setButtonTintList(ColorStateList.valueOf(notUrgentColor));}
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
