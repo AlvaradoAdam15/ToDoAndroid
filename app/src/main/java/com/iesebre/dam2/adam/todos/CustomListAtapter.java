@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,9 +67,19 @@ public class CustomListAtapter extends BaseAdapter {
         int mediumColor = Color.parseColor("#0099ff");
         int notUrgentColor = Color.parseColor("#00ff19");
 
-        if(list.get(position).getPriority() == 1){done.setButtonTintList(ColorStateList.valueOf(urgentColor));}
-        if(list.get(position).getPriority() == 2){done.setButtonTintList(ColorStateList.valueOf(mediumColor));}
-        if(list.get(position).getPriority() == 3){done.setButtonTintList(ColorStateList.valueOf(notUrgentColor));}
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if(list.get(position).getPriority() == 1) {done.setButtonTintList(ColorStateList.valueOf(urgentColor));}
+                if(list.get(position).getPriority() == 2){done.setButtonTintList(ColorStateList.valueOf(mediumColor));}
+                if(list.get(position).getPriority() == 3){done.setButtonTintList(ColorStateList.valueOf(notUrgentColor));}
+            } else {
+                if(list.get(position).getPriority() == 1) {done.setBackgroundColor(urgentColor);}
+                if(list.get(position).getPriority() == 2){done.setBackgroundColor(mediumColor);}
+                if(list.get(position).getPriority() == 3){done.setBackgroundColor(notUrgentColor);}
+            }
+
+
+
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
