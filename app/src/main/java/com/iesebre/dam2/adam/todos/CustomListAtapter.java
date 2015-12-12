@@ -68,36 +68,45 @@ public class CustomListAtapter extends BaseAdapter {
         int notUrgentColor = Color.parseColor("#00ff19");
 
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                if(list.get(position).getPriority() == 1) {done.setButtonTintList(ColorStateList.valueOf(urgentColor));}
-                if(list.get(position).getPriority() == 2){done.setButtonTintList(ColorStateList.valueOf(mediumColor));}
-                if(list.get(position).getPriority() == 3){done.setButtonTintList(ColorStateList.valueOf(notUrgentColor));}
-            } else {
-                if(list.get(position).getPriority() == 1) {done.setBackgroundColor(urgentColor);}
-                if(list.get(position).getPriority() == 2){done.setBackgroundColor(mediumColor);}
-                if(list.get(position).getPriority() == 3){done.setBackgroundColor(notUrgentColor);}
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if(list.get(position).getPriority() == 1) {done.setButtonTintList(ColorStateList.valueOf(urgentColor));}
+            if(list.get(position).getPriority() == 2){done.setButtonTintList(ColorStateList.valueOf(mediumColor));}
+            if(list.get(position).getPriority() == 3){done.setButtonTintList(ColorStateList.valueOf(notUrgentColor));}
+        } else {
+            if(list.get(position).getPriority() == 1){done.setBackgroundColor(urgentColor);}
+            if(list.get(position).getPriority() == 2){done.setBackgroundColor(mediumColor);}
+            if(list.get(position).getPriority() == 3){done.setBackgroundColor(notUrgentColor);}
+        }
 
-
-
+        showDone(tv,done, position);
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!done.isChecked()) {
-                    done.setChecked(false);
-                    list.get(position).setDone(false);
-                    tv.setPaintFlags(0);
-                } else {
-                    done.setChecked(true);
-                    list.get(position).setDone(true);
-                    tv.setPaintFlags(tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                }
+                showDone(tv,done, position);
+            }
+        });
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) context).editTask(position);
             }
         });
 
         return convertView;
     }
 
+    private void showDone(TextView tv, CheckBox done, int position)
+    {
+        if (!done.isChecked()) {
+            done.setChecked(false);
+            list.get(position).setDone(false);
+            tv.setPaintFlags(0);
+        } else {
+            done.setChecked(true);
+            list.get(position).setDone(true);
+            tv.setPaintFlags(tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+    }
 }
