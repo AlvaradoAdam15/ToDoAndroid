@@ -1,9 +1,13 @@
 package com.iesebre.dam2.adam.todos;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -26,7 +30,10 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 import java.lang.reflect.Type;
 
@@ -39,6 +46,51 @@ public class MainActivity extends AppCompatActivity
     public TodoArrayList tasks;
     private CustomListAtapter adapter;
     private String taskName;
+    private  View positiveAction;
+    private SwipeRefreshLayout swipeContainer;
+    private String todoList;
+    private SharedPreferences todos;
+    private NetworkInfo networkInfo;
+    private boolean networkInfoWifi;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+
+                loadJson();
+            }
+        });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        loadJson();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fabRemove = (FloatingActionButton) findViewById(R.id.fabremove);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
 
     @Override
     protected void onStop() {
@@ -55,81 +107,6 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences.Editor editor = todos.edit();
         editor.putString(TODO_LIST, tasksToSave);
         editor.apply();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        // Restore preferences
-        SharedPreferences todos = getSharedPreferences(SHARED_PREFERENCES_TODOS, 0);
-        String todoList = todos.getString(TODO_LIST, null);
-
-        /* JSON Example
-        [
-            {name:"Compra llet", "done": true, "priority": 2},
-            {name:"Compra pa", "done": true, "priority": 1},
-            {name:"Fer exercici", "done": false, "priority": 3}
-        ]
-         */
-
-        if (todoList == null) {
-            String initial_json = "[{name:\"Example Task\", \"done\": false, \"priority\": 2}]";
-            SharedPreferences.Editor editor = todos.edit();
-            editor.putString(TODO_LIST, initial_json);
-            editor.commit();
-            todoList = todos.getString(TODO_LIST, null);
-        }
-
-//        Log.d("TAG_PROVA", "******************************************************************");
-//        Log.d("TAG_PROVA", todoList);
-//        Log.d("TAG_PROVA", "******************************************************************");
-
-//        Toast.makeText(this, todoList, Toast.LENGTH_LONG).show();
-
-        Type arrayTodoList = new TypeToken<TodoArrayList>() {
-        }.getType();
-        this.gson = new Gson();
-        TodoArrayList temp = gson.fromJson(todoList, arrayTodoList);
-
-        if (temp != null) {
-            tasks = temp;
-
-        } else {
-            //Error TODO
-        }
-
-        ListView todoslv = (ListView) findViewById(R.id.todolistview);
-
-        //We bind our arraylist of tasks to the adapter
-        adapter = new CustomListAtapter(this, tasks);
-        todoslv.setAdapter(adapter);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        FloatingActionButton fabRemove = (FloatingActionButton) findViewById(R.id.fabremove);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                //Intent intent = new Intent(MainActivity.this, Main2Activity.class );
-//                //startActivity(intent);
-//                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                  //      .setAction("Action", null).show();
-//            }
-//        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -189,7 +166,75 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    View positiveAction;
+
+    public void loadJson(){
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connMgr.getActiveNetworkInfo();
+        networkInfoWifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
+        if (networkInfo != null && networkInfo.isConnected()) {
+            if (!networkInfoWifi) {
+                Toast.makeText(getApplicationContext(), "You aren't having WiFi connection", Toast.LENGTH_LONG).show();
+                }
+            downloadJson();
+        } else {
+            swipeContainer.setRefreshing(false);
+            //display in long period of time
+            Toast.makeText(getApplicationContext(), "Are you having internet connection?", Toast.LENGTH_LONG).show();
+            // Restore preferences
+            todos = getSharedPreferences(SHARED_PREFERENCES_TODOS, 0);
+            todoList = todos.getString(TODO_LIST, null);
+
+
+            if (todoList == null) {
+                String initial_json = "[{name:\"Example Task\", \"done\": false, \"priority\": 2}]";
+                SharedPreferences.Editor editor = todos.edit();
+                editor.putString(TODO_LIST, initial_json);
+                editor.commit();
+                todoList = todos.getString(TODO_LIST, null);
+            }
+            updateJson();
+        }
+    }
+
+    public void downloadJson(){
+        Ion.with(this)
+                .load("http://acacha.github.io/json-server-todos/db_todos.json")
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray result) {
+                        // do stuff with the result or error
+                        todoList = result.toString();
+                        Log.d("TAG_PROVA AAAA ", todoList);
+                        updateJson();
+                    }
+                });
+    }
+
+    public void updateJson(){
+        Type arrayTodoList = new TypeToken<TodoArrayList>() {
+        }.getType();
+        this.gson = new Gson();
+        TodoArrayList temp = gson.fromJson(todoList, arrayTodoList);
+
+        if (temp != null) {
+            tasks = temp;
+
+        } else {
+            //Error TODO
+        }
+
+        ListView todoslv = (ListView) findViewById(R.id.todolistview);
+
+        //We bind our arraylist of tasks to the adapter
+        adapter = new CustomListAtapter(this, tasks);
+        todoslv.setAdapter(adapter);
+
+        swipeContainer.setRefreshing(false);
+    }
+
+
 
     public void showAddForm(View view) {
 
